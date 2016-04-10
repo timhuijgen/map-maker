@@ -15,11 +15,10 @@ body {
 
 .toolbar {
     position: fixed;
-    height: calc(100% - 100px);
+    height: 100%;
     bottom: 0;
     background-color: #FFFFFF;
     border-right: solid 1px #333;
-    border-radius: 0 10px 0 0;
 
     &.in {
         width: 50px;
@@ -32,7 +31,9 @@ body {
 
 .file-manager {
     position: fixed;
-    width: 100%;
+    right: 0;
+    top: 0;
+    width: calc(100% - 350px);
     height: 50px;
     background-color: red;
     border-bottom: #333;
@@ -46,4 +47,12 @@ body {
     height: calc(100% - 100px);
     background-color: green;
     border-radius: 10px 0 0 0;
+}
+
+.map-area {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
 }
