@@ -6,7 +6,7 @@
 }
 
 body {
-    background: #DDDDDD;
+    background: #AAAAAA;
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -14,11 +14,13 @@ body {
 
 
 .toolbar {
-    position: fixed;
+    position: absolute;
     height: 100%;
     bottom: 0;
     background-color: #FFFFFF;
     border-right: solid 1px #333;
+    z-index: 20;
+    overflow: hidden;
 
     &.in {
         width: 50px;
@@ -27,32 +29,103 @@ body {
     &.out {
         width: 300px;
     }
+
+    .nav {
+        border-bottom: solid 1px #ccc;
+        width: 100%;
+    }
+
+    .nav-tabs {
+        margin-top: 6px;
+        float: left;
+    }
+
+    .tab-content {
+        width: 100%;
+        float: left;
+
+        .tab-pane {
+            margin: 6px;
+        }
+    }
+
+    #collection {
+
+        .dropzone {
+            float: left;
+            width: 100%;
+            border: dashed #ccc 1px;
+            border-radius: 6px;
+            padding: 16px;
+            color: #ccc;
+            text-align: center;
+            cursor: pointer;
+            margin: 4px 0 6px 0;
+
+            &.hovering {
+                border: dashed #333 1px;
+            }
+        }
+
+        #collection-list {
+            max-height: calc(100vh - 160px);
+            display: inline-block;
+            overflow-y: auto;
+
+            .file {
+                width: 85px;
+                height: 85px;
+                float: left;
+                background-size: cover;
+                margin: 3px;
+                border: solid 1px #ccc;
+                cursor: pointer;
+
+                &.smaller {
+                    width: 61px;
+                    height: 61px;
+                }
+            }
+        }
+
+    }
 }
 
-.file-manager {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: calc(100% - 350px);
-    height: 50px;
-    background-color: red;
-    border-bottom: #333;
-}
 
 .element-manager {
     position: fixed;
     bottom: 0;
     right: 0;
     width: 300px;
-    height: calc(100% - 100px);
-    background-color: green;
-    border-radius: 10px 0 0 0;
+    height: 100%;
+    background-color: #FFFFFF;
+    z-index: 20;
+    border-left: solid 1px #333;
 }
 
 .map-area {
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
     top: 0;
     left: 0;
+    z-index: 1;
+
+    .grid {
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+
+        .grid-line {
+            position: fixed;
+            display: block;
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+    }
+}
+
+.navbar-nav > li > a {
+  padding: 6px 10px 6px 6px;
 }

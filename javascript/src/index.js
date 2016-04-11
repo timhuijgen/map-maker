@@ -20,8 +20,6 @@ try {
         }
     }
 
-    options.clientToken = Cookies.get('client_token');
-
     new Client(options);
 
 } catch ( e ) {

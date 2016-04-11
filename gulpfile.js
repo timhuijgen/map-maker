@@ -123,14 +123,14 @@ gulp.task('place_fonts', function() {
 gulp.task('place_lib', function() {
     if ( PRODUCTION ) {
         gulp.src(routes.JS_LIB_DIR)
-        .pipe(order(['jquery.min.js', 'bootstrap.min.js']))
+        .pipe(order(['jquery.min.js', 'jquery-ui.js', 'bootstrap.min.js']))
         .pipe(concat(routes.JS_LIB_MIN_OUT))
         .pipe(uglify())
         .pipe(gulp.dest(routes.JS_DEST));
     } else {
         gulp.src(routes.JS_LIB_DIR)
         .pipe(sourcemaps.init())
-        .pipe(order(['jquery.min.js', 'bootstrap.min.js']))
+        .pipe(order(['jquery.min.js', 'jquery-ui.js', 'bootstrap.min.js']))
         .pipe(concat(routes.JS_LIB_OUT))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(routes.JS_DEST))
