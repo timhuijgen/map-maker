@@ -12,6 +12,53 @@ body {
     overflow: auto;
 }
 
+@mixin toggler($inverse) {
+    $toggle-in: 'left';
+    $toggle-out: 'right';
+
+    &.in {
+        @if $inverse {
+            right: 0;
+        } @else {
+            left: -300px;
+        }
+
+        .toggle {
+            .glyphicon-chevron-#{$toggle-in} {
+                display: none;
+            }
+        }
+    }
+
+    &.out {
+        @if $inverse {
+            right: -300px;
+        } @else {
+            left: 0;
+        }
+
+        .toggle {
+            .glyphicon-chevron-#{$toggle-out} {
+                display: none;
+            }
+        }
+    }
+
+    .toggle {
+        position: absolute;
+        background-color: white;
+        padding: 7px;
+        border: solid 1px #333;
+        @if $inverse {
+            border-radius: 4px 0 0 4px;
+            left: -30px;
+        } @else {
+            border-radius: 0 4px 4px 0;
+            right: -30px;
+        }
+        top: 13px;
+    }
+}
 
 .toolbar {
     position: absolute;
@@ -23,13 +70,7 @@ body {
     width: 300px;
     transition: left .5s linear;
 
-    &.in {
-        left: -300px;
-    }
-
-    &.out {
-        left: 0;
-    }
+    @include toggler(false);
 
     .nav {
         border-bottom: solid 1px #ccc;
@@ -101,6 +142,9 @@ body {
     background-color: #FFFFFF;
     z-index: 20;
     border-left: solid 1px #333;
+    transition: right 0.5s linear;
+
+    @include toggler(true);
 }
 
 .map-area {
@@ -133,4 +177,8 @@ body {
 
 .navbar-nav > li > a {
   padding: 6px 10px 6px 6px;
+}
+
+.pointer {
+    cursor: pointer;
 }

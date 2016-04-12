@@ -1,14 +1,12 @@
 export default class Filehandler {
 
-    constructor(Client, $el) {
+    constructor(Client) {
         this.Client = Client;
-        this.dropzone = $el;
+        this.dropzone = $('#dropzone');
 
         this.dropzone.on('dragover', this.onDragOver.bind(this));
         this.dropzone.on('dragleave', this.onDragEnd.bind(this));
         this.dropzone.on('drop', this.onDrop.bind(this));
-
-        console.log($el);
     }
 
     onDragOver(event) {

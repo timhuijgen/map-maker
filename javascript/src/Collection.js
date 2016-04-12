@@ -12,18 +12,18 @@ export default class Collection {
             img = new Image();
 
         img.onload = () => {
-            this.list.prepend(
-                $('<div></div>')
-                    .addClass('file')
-                    .data('file-key', filekey)
-                    .css('background-image', 'url(' + file.content + ')')
-            );
+            let element = $('<div></div>')
+                .addClass('file')
+                .data('file-key', filekey)
+                .css('background-image', 'url(' + file.content + ')');
+
+            this.list.prepend(element);
 
             if(this.list && this.list[0] && this.list[0].scrollHeight > this.list.height()) {
                 this.list.find('.file').addClass('smaller');
             }
 
-            $('.file').draggable({containment: '.map-area', helper: function(ev) {
+            $('.file').draggable({containment: '.map-area', helper: function() {
                 let helper = $(this).clone();
                 helper.css('margin', 0);
                 return helper;
