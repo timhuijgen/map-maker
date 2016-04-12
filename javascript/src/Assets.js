@@ -1,32 +1,30 @@
 import _ from 'lodash';
 
 export default class Assets {
-    
+
     constructor(Client) {
         this.Client = Client;
-        this.files = [];
+        this.assets = [];
         this.map_list = $('#map-assets');
         this.list = $('#asset-list');
         this.selected_asset = null;
     }
-    
+
     add(file, position) {
-        console.log('Adding asset');
         file = _.extend({}, file);
         file.position = this.Client.Grid.snapToGrid(position);
-        file.key = this.files.push(file) - 1;
+        file.key = this.assets.push(file) - 1;
 
         let img = new Image(),
             self = this;
 
-        img.onload = function() {
+        img.onload = function () {
             file.width = this.width;
             file.height = this.height;
             self.onLoadDone(file);
         };
         img.src = file.content;
     }
-
 
     onLoadDone(file) {
         let grid = this.Client.Grid.getSize();
@@ -64,7 +62,7 @@ export default class Assets {
     selectAsset(key) {
         console.log('Selecting asset ', key);
 
-        if(this.selected_asset) {
+        if (this.selected_asset) {
             this.getMapAsset(this.selected_asset).css('zIndex', 15);
         }
 

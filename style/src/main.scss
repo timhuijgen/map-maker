@@ -93,22 +93,6 @@ body {
 
     #collection {
 
-        .dropzone {
-            float: left;
-            width: 100%;
-            border: dashed #ccc 1px;
-            border-radius: 6px;
-            padding: 16px;
-            color: #ccc;
-            text-align: center;
-            cursor: pointer;
-            margin: 4px 0 6px 0;
-
-            &.hovering {
-                border: dashed #333 1px;
-            }
-        }
-
     }
 
     .collection-list {
@@ -181,4 +165,52 @@ body {
 
 .pointer {
     cursor: pointer;
+}
+
+.dropzone {
+    float: left;
+    width: 100%;
+    border: dashed #ccc 1px;
+    border-radius: 6px;
+    padding: 16px;
+    color: #ccc;
+    text-align: center;
+    cursor: pointer;
+    margin: 4px 0 6px 0;
+
+    &.hovering {
+        border: dashed #333 1px;
+    }
+}
+
+.popup {
+    position: absolute;
+    width: 400px;
+    height: auto;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: solid 1px #111111;
+    border-radius: 6px;
+    z-index: 18;
+
+    &-header {
+        height: 30px;
+        width: 100%;
+        border-bottom: 1px solid #111111;
+
+        .title {
+            padding-left: 10px;
+        }
+    }
+
+    &-body {
+        padding: 10px;
+    }
+
+    &-footer {
+        border-top: solid 1px #111111;
+        padding: 10px;
+    }
 }

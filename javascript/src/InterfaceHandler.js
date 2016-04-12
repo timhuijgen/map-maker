@@ -6,7 +6,6 @@ export default class InterfaceHandler {
     }
 
     registerListeners() {
-
         // Left menu toggle
         $('#toolbar .toggle').on('click', function(){
             $('#toolbar').toggleClass('out');
@@ -18,9 +17,12 @@ export default class InterfaceHandler {
             $('#element-manager').toggleClass('out');
             $('#element-manager').toggleClass('in');
         })
-
-
     }
-
-
+    
+    editMap() {
+        this.Client.Popup.setHeader('Edit Map');
+        this.Client.Popup.setFooter(null, null, this.Client.setMapOptions);
+        this.Client.Popup.openPopup();
+    }
+    
 }
