@@ -20,14 +20,15 @@ body {
     background-color: #FFFFFF;
     border-right: solid 1px #333;
     z-index: 20;
-    overflow: hidden;
+    width: 300px;
+    transition: left .5s linear;
 
     &.in {
-        width: 50px;
+        left: -300px;
     }
 
     &.out {
-        width: 300px;
+        left: 0;
     }
 
     .nav {
@@ -67,27 +68,26 @@ body {
             }
         }
 
-        #collection-list {
-            max-height: calc(100vh - 160px);
-            display: inline-block;
-            overflow-y: auto;
+    }
 
-            .file {
-                width: 85px;
-                height: 85px;
-                float: left;
-                background-size: cover;
-                margin: 3px;
-                border: solid 1px #ccc;
-                cursor: pointer;
+    .collection-list {
+        max-height: calc(100vh - 160px);
+        display: inline-block;
 
-                &.smaller {
-                    width: 61px;
-                    height: 61px;
-                }
+        .file {
+            width: 85px;
+            height: 85px;
+            float: left;
+            background-size: cover;
+            margin: 3px;
+            border: solid 1px #ccc;
+            cursor: pointer;
+
+            &.smaller {
+                width: 61px;
+                height: 61px;
             }
         }
-
     }
 }
 
@@ -123,6 +123,11 @@ body {
             border-bottom: 1px solid #ccc;
             border-right: 1px solid #ccc;
         }
+    }
+
+    .asset-file {
+        position: absolute;
+        z-index: 15;
     }
 }
 

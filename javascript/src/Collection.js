@@ -1,36 +1,53 @@
 
 export default class Collection {
 
-    constructor() {
+    constructor(Client) {
+        this.Client = Client;
         this.files = [];
         this.list = $('#collection-list');
     }
 
     add(file) {
-        this.files.push(file);
+        let filekey = this.files.push(file) - 1,
+            img = new Image();
 
-        this.list.prepend(
-            $('<div></div>')
-                .addClass('file')
-                .css('background-image', 'url(' + file.content + ')')
-        );
+        img.onload = () => {
+            this.list.prepend(
+                $('<div></div>')
+                    .addClass('file')
+                    .data('file-key', filekey)
+                    .css('background-image', 'url(' + file.content + ')')
+            );
 
-        if(this.list && this.list[0] && this.list[0].scrollHeight > this.list.height()) {
-            this.list.find('.file').addClass('smaller');
-        }
+            if(this.list && this.list[0] && this.list[0].scrollHeight > this.list.height()) {
+                this.list.find('.file').addClass('smaller');
+            }
+
+            $('.file').draggable({containment: '.map-area', helper: function(ev) {
+                let helper = $(this).clone();
+                helper.css('margin', 0);
+                return helper;
+            }});
+            $('.map-area').droppable({
+                drop: (ev, ui) => {
+                    let position = { x: ui.position.left, y: ui.position.top },
+                        key = $(ui.draggable).data('file-key');
+
+                    console.log('File [%s] dropped on map [%s %s]', key, position.x, position.y);
+                    this.Client.Assets.add(this.files[key], position);
+                }
+            });
+        };
+
+        img.src = file.content;
     }
 
     draw() {
         this.list.empty();
 
-        for(let i = 0; i < this.files.length; i++) {
-            this.list
-                .apppend(
-                    $('<div></div>')
-                        .addClass('file')
-                        .css('background-image', 'url(' + this.files[i].content + ')')
-                );
-        }
+        this.files.forEach((file) => {
+            this.add(file);
+        });
     }
 
 }

@@ -9,6 +9,10 @@
 <body>
 
 <div class="toolbar out">
+    <div class="toggle">
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </div>
+
     <ul class="nav navbar-nav">
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File</a>
@@ -45,20 +49,27 @@
             </ul>
         </li>
     </ul>
+
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation"><a href="#assets" aria-controls="assets" role="tab" data-toggle="tab">Assets</a></li>
         <li role="presentation" class="active"><a href="#collection" aria-controls="collection" role="tab" data-toggle="tab">Collection</a></li>
     </ul>
 
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane" id="assets"></div>
+        <div role="tabpanel" class="tab-pane" id="assets">
+
+            <div id="asset-list" class="collection-list">
+
+            </div>
+
+        </div>
         <div role="tabpanel" class="tab-pane active" id="collection">
 
             <div id="dropzone" class="dropzone">
-                <span>Click or drop file here</span>
+                <span>Drop file(s) here</span>
             </div>
 
-            <div id="collection-list" class="collection">
+            <div id="collection-list" class="collection-list">
 
             </div>
 
@@ -74,6 +85,8 @@
 <div class="map-area">
 
     <div id="grid" class="grid"></div>
+
+    <div id="map-assets" class="map-assets"></div>
 
 </div>
 
