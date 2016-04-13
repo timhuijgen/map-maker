@@ -1,3 +1,4 @@
+import _ from 'lodash';
 
 export default class Collection {
 
@@ -8,6 +9,11 @@ export default class Collection {
     }
 
     add(file) {
+        if(!this.isUnique(file.hash)) {
+            console.warn('Adding a file which already exists in the collection');
+            return;
+        }
+
         let filekey = this.files.push(file) - 1,
             img = new Image();
 
@@ -29,6 +35,7 @@ export default class Collection {
                 return helper;
             }});
             $('.map-area').droppable({
+                accept: $('#collection-list .file'),
                 drop: (ev, ui) => {
                     let position = { x: ui.position.left, y: ui.position.top },
                         key = $(ui.draggable).data('file-key');
@@ -48,6 +55,10 @@ export default class Collection {
         this.files.forEach((file) => {
             this.add(file);
         });
+    }
+
+    isUnique(hash) {
+        return !_.find(this.files, ['hash', hash])
     }
 
 }

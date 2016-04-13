@@ -12,7 +12,8 @@ export default class Menu {
                 {type: 'action', title: 'Export', callback: null}
             ]},
             {title: 'Edit', links: [
-                {type: 'action', title: 'Map', callback: this.Client.Interface.editMap.bind(this)}
+                {type: 'action', title: 'Map', callback: this.Client.Map.editMap.bind(this.Client.Map)},
+                {type: 'action', title: 'Grid', callback: this.Client.Grid.editGrid.bind(this.Client.Grid)}
             ]}
         ];
     }

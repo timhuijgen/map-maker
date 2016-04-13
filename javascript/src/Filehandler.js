@@ -2,7 +2,7 @@ export default class Filehandler {
 
     constructor(Client) {
         this.Client = Client;
-        this.dropzone = $('#dropzone');
+        this.dropzone = $('#file-dropzone');
 
         this.dropzone.on('dragover', this.onDragOver.bind(this));
         this.dropzone.on('dragleave', this.onDragEnd.bind(this));
@@ -38,7 +38,8 @@ export default class Filehandler {
                 type: files[iterator].type,
                 size: files[iterator].size,
                 uploaded: (new Date().getTime() / 1000 | 0),
-                content: e.currentTarget.result
+                content: e.currentTarget.result,
+                hash: this.hashCode(e.currentTarget.result)
             });
 
             iterator++;
@@ -53,4 +54,7 @@ export default class Filehandler {
         }
     }
 
+    hashCode(string){
+        return string.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+    }
 }

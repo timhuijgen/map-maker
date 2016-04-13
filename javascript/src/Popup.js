@@ -24,8 +24,44 @@ export default class Popup {
         $('.popup-footer').empty();
     }
 
-    setBody() {
+    setBody(data) {
+        let form = $('<form></form>');
+        
+        data.forEach((rowData) => {
+            let row = $('<div></div>');
 
+            if(rowData.type == 'checkbox') {
+                row.addClass('checkbox');
+            } else {
+                row.addClass('form-group');
+            }
+
+            let input = $('<input />')
+                .attr('type', rowData.type || 'text')
+                .attr('name', rowData.name);
+
+            if(rowData.type == 'checkbox') {
+                input.attr('checked', rowData.value);
+            } else {
+                input.val(rowData.value);
+                input.addClass('form-control');
+            }
+
+            let label;
+            if(rowData.label) {
+                label = $('<label></label>').html(rowData.label);
+                row.append(label);
+            }
+
+            if(label && rowData.type == 'checkbox') {
+                label.prepend(input);
+            } else {
+                row.append(input);
+            }
+            form.append(row);
+        });
+        
+        $('.popup-body').append(form);
     }
 
     clearBody() {
@@ -34,7 +70,16 @@ export default class Popup {
 
     clearAndClose(cb) {
         if(cb) {
-            cb();
+            let rawData = $('.popup-body form').serializeArray(),
+                data = {};
+
+            rawData.forEach(obj => {
+                console.log('val', obj);
+
+               data[obj.name] = obj.value;
+            });
+
+            cb(data);
         }
         this.clearHeader();
         this.clearBody();

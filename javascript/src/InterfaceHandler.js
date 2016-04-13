@@ -19,10 +19,4 @@ export default class InterfaceHandler {
         })
     }
     
-    editMap() {
-        this.Client.Popup.setHeader('Edit Map');
-        this.Client.Popup.setFooter(null, null, this.Client.setMapOptions);
-        this.Client.Popup.openPopup();
-    }
-    
 }
