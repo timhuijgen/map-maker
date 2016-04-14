@@ -8,8 +8,8 @@
 body {
     background: #AAAAAA;
     width: 100%;
-    height: 100%;
-    overflow: auto;
+    height: 100vh;
+    overflow: hidden;
 }
 
 @mixin toggler($inverse) {
@@ -95,6 +95,14 @@ body {
 
     }
 
+    #map-controls {
+        padding: 7px;
+
+        &.active {
+            color: #800000;
+        }
+    }
+
     .collection-list {
         max-height: calc(100vh - 160px);
         display: inline-block;
@@ -116,6 +124,9 @@ body {
     }
 }
 
+.glyphicon:hover {
+    color: #707070;
+}
 
 .element-manager {
     position: fixed;

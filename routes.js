@@ -4,7 +4,7 @@ module.exports = {
     FONTS_DIR: 'assets/fonts/**/*.*',
     FILES_DIR: 'assets/files/**/*.*',
     ETC_DIR:   'assets/etc/**/*.*',
-    HTACCESS:   'assets/etc/htaccess.txt',
+    HTACCESS:  'assets/etc/htaccess.txt',
 
     IMAGE_DEST: 'public/images/',
     FONTS_DEST: 'public/fonts/',
@@ -21,8 +21,8 @@ module.exports = {
     JS_SRC_DIR:   'javascript/src/',
     JS_SRC_ENTRY: './javascript/src/index.js',
 
-    JS_VIRTUAL_DIR: '/',
-    JS_PUBLIC_SRC_MIN:  'javascript/build/client.min.js',
+    JS_VIRTUAL_DIR:    '/',
+    JS_PUBLIC_SRC_MIN: 'javascript/build/client.min.js',
 
     JS_DEST:         'public/javascript/build/',
     JS_LIB_OUT:      'lib.js',
