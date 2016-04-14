@@ -10,6 +10,7 @@ module.exports = {
     FONTS_DEST: 'public/fonts/',
     FILES_DEST: 'public/files/',
     ETC_DEST:   'public/',
+    BUILD_DIR:  './public/',
 
     /** HTML **/
     HTML_SRC:  'html/**/*.html',

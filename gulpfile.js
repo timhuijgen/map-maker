@@ -23,22 +23,58 @@ const
     WebpackDevServer = require( 'webpack-dev-server' ),
     webpackConfig    = require( './webpack.config.js' ),
     browserSync      = require( 'browser-sync' ),
+    electron         = require( 'electron-prebuilt' ),
+    packager         = require( 'electron-packager'),
+    childProcess     = require( 'child_process'),
 
     routes           = require( './routes' );
 
 let PRODUCTION = false,
     testUri    = 'localhost',
-    testPort   = 3000;
+    testPort   = 3000,
+    child      = null,
+    auto_restart = false,
+    use_electron = false;
 
 gulp.task( 'production', function () {
     PRODUCTION = true;
 } );
 
+gulp.task( 'electron', function() {
+    use_electron = true;
+});
+
 /**
  * Client tasks
  */
 
-gulp.task( 'client:_build', function () {
+gulp.task('run', ['client:_build', 'watch_public'], function() {
+    child = childProcess.spawn(electron, [routes.BUILD_DIR], {
+        env: { NODE_ENV: 'development' },
+        cwd: __dirname,
+        detached: false, // set true to leave app open after terminating cmd
+        stdio: [null, null, null, 'ipc']
+    });
+
+    child.on('error', function(reason) {
+        console.log('electron child error', reason);
+    });
+
+    child.on('close', function(reason) {
+        child = null;
+        if (auto_restart) run('run');
+        else process.exit(0);
+    });
+
+    child.unref();
+
+});
+
+gulp.task('reload', function() {
+    if (child) child.send('reload');
+});
+
+gulp.task( 'client:_build', function (cb) {
     let config = webpackConfig.production;
 
     webpack( config, function ( err, stats ) {
@@ -46,6 +82,7 @@ gulp.task( 'client:_build', function () {
             throw new gutil.PluginError( 'build:client', err );
         }
         gutil.log( '[build:client]', stats.toString( {colors: true} ) );
+        cb();
     } );
 } );
 
@@ -143,8 +180,12 @@ gulp.task( 'watch_lib', function () {
 } );
 
 gulp.task( 'place_html', function () {
-    let clientLocation = (PRODUCTION) ? routes.JS_PUBLIC_SRC_MIN : routes.JS_SRC_OUT;
-    let libLocation    = (PRODUCTION) ? routes.JS_LIB_MIN_DEST : routes.JS_LIB_DEST;
+    var _PRODUCTION = PRODUCTION;
+    if(use_electron) {
+        _PRODUCTION = true;
+    }
+    let clientLocation = (_PRODUCTION) ? routes.JS_PUBLIC_SRC_MIN : routes.JS_SRC_OUT;
+    let libLocation    = (_PRODUCTION) ? routes.JS_LIB_MIN_DEST : routes.JS_LIB_DEST;
 
     gulp.src( routes.HTML_SRC )
         .pipe( htmlreplace( {
@@ -175,6 +216,10 @@ gulp.task( 'place_htaccess', function () {
         .pipe( gulp.dest( routes.ETC_DEST ) );
 } );
 
+gulp.task( 'watch_public', function() {
+    gulp.watch( 'public/**/*.*', ['reload'] );
+} );
+
 gulp.task( 'resources:build', [ 'place_html', 'place_lib', 'place_css', 'place_fonts', 'place_images', 'place_files', 'place_etc' ] );
 gulp.task( 'resources:watch', [ 'watch_html', 'watch_lib', 'watch_style', 'watch_images' ] );
 
@@ -182,3 +227,4 @@ gulp.task( 'default', [ 'client' ] );
 gulp.task( 'client:build', [ 'client' ] );
 gulp.task( 'client', [ 'production', 'resources:build', 'client:_build' ] );
 gulp.task( 'client:dev', [ 'browsersync', 'resources:build', 'resources:watch', 'client:watch' ] );
+gulp.task( 'client:dev-electron', [ 'electron', 'client', 'resources:watch', 'run' ] );
