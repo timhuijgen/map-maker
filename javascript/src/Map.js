@@ -18,6 +18,23 @@ export default class Map {
             top:    this.position.y
         } );
 
+        this.map.droppable( {
+            drop: ( ev, ui ) => {
+                if ( !$( ui.draggable ).hasClass( 'file' ) ) {
+                    console.warn( 'Trying to drop something on the map this is not from the collection' );
+                    return;
+                }
+
+                let newPosX  = ui.offset.left - this.map.offset().left,
+                    newPosY  = ui.offset.top - this.map.offset().top,
+                    position = {x: newPosX, y: newPosY},
+                    key      = $( ui.draggable ).data( 'file-key' );
+
+                console.log( 'File [%s] dropped on map [%s %s]', key, position.x, position.y );
+                this.Client.Assets.add( this.Client.Collection.getFile( key ), position );
+            }
+        } );
+
         return this;
     }
 
@@ -57,5 +74,14 @@ export default class Map {
         } else {
             $( '.asset-file' ).css( 'pointer-events', 'auto' );
         }
+    }
+
+    center() {
+        let offsetLeft = ( $(window).width() - this.width ) / 2,
+            offsetTop = ( $(window).height() - this.height ) / 2;
+
+        this.position.x = offsetLeft;
+        this.position.y = offsetTop;
+        this.draw();
     }
 }

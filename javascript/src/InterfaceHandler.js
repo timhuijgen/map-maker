@@ -23,6 +23,14 @@ export default class InterfaceHandler {
 
             this.Client.Map.draggable( $( ev.currentTarget ).hasClass( 'active' ) );
         } );
+
+        $( '#map-center' ).on( 'click', (ev) => {
+            this.Client.Map.center();
+        });
+    }
+
+    openElementManager() {
+        $('#element-manager').addClass('in').removeClass('out');
     }
 
 }

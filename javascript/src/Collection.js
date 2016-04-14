@@ -29,29 +29,23 @@ export default class Collection {
                 this.list.find( '.file' ).addClass( 'smaller' );
             }
 
-            $( '.file' ).draggable( {
-                containment: '.map-area', helper: function () {
+            element.draggable( {
+                scroll: false,
+                helper: function () {
                     let helper = $( this ).clone();
                     helper.css( 'margin', 0 );
                     return helper;
-                }
-            } );
-            $( '.map-area' ).droppable( {
-                accept: $( '#collection-list .file' ),
-                drop:   ( ev, ui ) => {
-                    let newPosX  = ui.offset.left - $( '.map-area' ).offset().left,
-                        newPosY  = ui.offset.top - $( '.map-area' ).offset().top,
-                        position = {x: newPosX, y: newPosY},
-                        key      = $( ui.draggable ).data( 'file-key' );
-
-                    console.log( 'File [%s] dropped on map [%s %s]', key, position.x, position.y );
-                    this.Client.Assets.add( this.files[ key ], position );
                 }
             } );
         };
 
         img.src = file.content;
     }
+
+    getFile( key ) {
+        return this.files[ key ] || false;
+    }
+
 
     draw () {
         this.list.empty();
