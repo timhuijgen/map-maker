@@ -60,7 +60,5 @@ app.on('activate', function () {
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
         createWindow();
-
-        mainWindow.app = app;
     }
 });
