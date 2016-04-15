@@ -1,3 +1,4 @@
+
 export default class Map {
 
     constructor ( Client, width = 1920, height = 1080 ) {
@@ -39,6 +40,7 @@ export default class Map {
     }
 
     editMap () {
+        this.Client.Popup.clear();
         this.Client.Popup.setHeader( 'Edit Map' );
         this.Client.Popup.setBody( [
             {label: 'Map Name', type: 'text', name: 'map_name', value: this.name},
@@ -77,11 +79,8 @@ export default class Map {
     }
 
     center() {
-        let offsetLeft = ( $(window).width() - this.width ) / 2,
-            offsetTop = ( $(window).height() - this.height ) / 2;
-
-        this.position.x = offsetLeft;
-        this.position.y = offsetTop;
+        this.position.x = ( $( window ).width() - this.width ) / 2;
+        this.position.y = ( $(window).height() - this.height ) / 2;
         this.draw();
     }
 }

@@ -81,10 +81,15 @@ export default class Popup {
 
             cb( data );
         }
+
+        this.clear();
+        this.closePopup();
+    }
+
+    clear() {
         this.clearHeader();
         this.clearBody();
         this.clearFooter();
-        this.closePopup();
     }
 
     closePopup () {

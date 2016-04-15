@@ -13,9 +13,9 @@ let mainWindow;
 function createWindow () {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
-        autoHideMenuBar: true,
+        width: 1200,
+        height: 1000,
+        autoHideMenuBar: false,
         frame: true,
         fullscreen: false,
         resizable: true,
@@ -37,6 +37,7 @@ function createWindow () {
     });
 }
 
+// Trigger reload
 process.on('message', () => {
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 });
@@ -59,5 +60,7 @@ app.on('activate', function () {
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
         createWindow();
+
+        mainWindow.app = app;
     }
 });

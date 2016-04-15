@@ -23,4 +23,8 @@ export default class Client {
         this.Menu        = new Menu( this ).draw();
     }
 
+    isElectron() {
+        return this.options.electron;
+    }
+
 }

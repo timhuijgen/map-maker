@@ -48,7 +48,7 @@ gulp.task( 'electron', function() {
  * Client tasks
  */
 
-gulp.task('run', ['client:_build', 'watch_public'], function() {
+gulp.task('run', ['client:_build', 'watch_all'], function() {
     child = childProcess.spawn(electron, [routes.BUILD_DIR], {
         env: { NODE_ENV: 'development' },
         cwd: __dirname,
@@ -76,19 +76,20 @@ gulp.task('reload', function() {
 
 gulp.task( 'client:_build', function (cb) {
     let config = webpackConfig.production;
-
+    config.externals = {electron: 'commonjs electron', remote: 'commonjs remote'};
     webpack( config, function ( err, stats ) {
         if ( err ) {
             throw new gutil.PluginError( 'build:client', err );
         }
         gutil.log( '[build:client]', stats.toString( {colors: true} ) );
+        if (child) child.send('reload');
         cb();
     } );
 } );
 
 gulp.task( 'client:watch', function () {
     let config = webpackConfig.development;
-
+    config.externals = {electron: 'electron', remote: 'remote'};
     new WebpackDevServer( webpack( config ), {
         contentBase:        routes.HTML_DEST,
         publicPath:         config.output.publicPath,
@@ -128,7 +129,7 @@ gulp.task( 'place_css', function () {
         .pipe( browserSync.stream( {match: '**/*.css'} ) );
 
     // LIB
-    gulp.src( routes.CSS_DIR )
+    return gulp.src( routes.CSS_DIR )
         .pipe( sourcemaps.init() )
         .pipe( autoprefix( [ 'last 1 version', '> 1%', 'ie 9' ] ) )
         .pipe( concat( routes.CSS_LIB_OUT ) )
@@ -143,7 +144,7 @@ gulp.task( 'watch_style', function () {
 } );
 
 gulp.task( 'place_images', function () {
-    gulp.src( routes.IMAGE_DIR )
+    return gulp.src( routes.IMAGE_DIR )
         .pipe( imagemin() )
         .pipe( gulp.dest( routes.IMAGE_DEST ) );
 } );
@@ -153,19 +154,19 @@ gulp.task( 'watch_images', function () {
 } );
 
 gulp.task( 'place_fonts', function () {
-    gulp.src( routes.FONTS_DIR )
+    return gulp.src( routes.FONTS_DIR )
         .pipe( gulp.dest( routes.FONTS_DEST ) );
 } );
 
 gulp.task( 'place_lib', function () {
     if ( PRODUCTION ) {
-        gulp.src( routes.JS_LIB_DIR )
+        return gulp.src( routes.JS_LIB_DIR )
             .pipe( order( [ 'jquery.min.js', 'jquery-ui.js', 'bootstrap.min.js' ] ) )
             .pipe( concat( routes.JS_LIB_MIN_OUT ) )
             .pipe( uglify() )
             .pipe( gulp.dest( routes.JS_DEST ) );
     } else {
-        gulp.src( routes.JS_LIB_DIR )
+        return gulp.src( routes.JS_LIB_DIR )
             .pipe( sourcemaps.init() )
             .pipe( order( [ 'jquery.min.js', 'jquery-ui.js', 'bootstrap.min.js' ] ) )
             .pipe( concat( routes.JS_LIB_OUT ) )
@@ -187,11 +188,17 @@ gulp.task( 'place_html', function () {
     let clientLocation = (_PRODUCTION) ? routes.JS_PUBLIC_SRC_MIN : routes.JS_SRC_OUT;
     let libLocation    = (_PRODUCTION) ? routes.JS_LIB_MIN_DEST : routes.JS_LIB_DEST;
 
-    gulp.src( routes.HTML_SRC )
-        .pipe( htmlreplace( {
-            'lib':    libLocation,
-            'client': clientLocation
-        } ) )
+    let cf = {
+        'lib':    libLocation,
+        'client': clientLocation
+    };
+
+    if(!use_electron) {
+        cf['fake-electron'] = 'fake-electron.js';
+    }
+
+    return gulp.src( routes.HTML_SRC )
+        .pipe( htmlreplace( cf ) )
         .pipe( gulp.dest( routes.HTML_DEST ) )
         .pipe( browserSync.reload( {stream: true} ) );
 } );
@@ -201,23 +208,24 @@ gulp.task( 'watch_html', function () {
 } );
 
 gulp.task( 'place_files', function () {
-    gulp.src( routes.FILES_DIR )
+    return gulp.src( routes.FILES_DIR )
         .pipe( gulp.dest( routes.FILES_DEST ) );
 } );
 
 gulp.task( 'place_etc', [ 'place_htaccess' ], function () {
-    gulp.src( [ routes.ETC_DIR, '!' + routes.HTACCESS ] )
+    return gulp.src( [ routes.ETC_DIR, '!' + routes.HTACCESS ] )
         .pipe( gulp.dest( routes.ETC_DEST ) );
 } );
 
 gulp.task( 'place_htaccess', function () {
-    gulp.src( routes.HTACCESS )
+    return gulp.src( routes.HTACCESS )
         .pipe( rename( '.htaccess' ) )
         .pipe( gulp.dest( routes.ETC_DEST ) );
 } );
 
-gulp.task( 'watch_public', function() {
-    gulp.watch( 'public/**/*.*', ['reload'] );
+gulp.task( 'watch_all', function() {
+    gulp.watch( routes.ASSETS_ALL, ['reload'] );
+    gulp.watch( routes.JS_SRC_FILES, ['client:_build'] )
 } );
 
 gulp.task( 'resources:build', [ 'place_html', 'place_lib', 'place_css', 'place_fonts', 'place_images', 'place_files', 'place_etc' ] );

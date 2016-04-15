@@ -77,6 +77,7 @@ export default class Grid {
     }
 
     editGrid () {
+        this.Client.Popup.clear();
         this.Client.Popup.setHeader( 'Edit Grid' );
         this.Client.Popup.setBody( [
             {label: 'Enable', type: 'checkbox', name: 'grid_enabled', value: this.enabled},

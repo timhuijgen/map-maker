@@ -1,10 +1,10 @@
 {
+  "private": true,
   "version": "0.1.0",
   "name": "map-maker",
   "description": "map-maker",
   "productName": "Map Maker",
   "main": "electron.js",
-  "private": true,
-  "author": "",
-  "license": "ISC"
+  "author": "Tim Huijgen",
+  "license": "MIT"
 }
