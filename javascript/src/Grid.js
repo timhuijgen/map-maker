@@ -41,8 +41,6 @@ export default class Grid {
     }
 
     remove () {
-        console.log( 'Removing grid' );
-
         this.grid.empty();
 
         return this;
@@ -53,6 +51,8 @@ export default class Grid {
             throw new Error( 'Invalid size, expecting object received ' + (typeof size) );
         }
         this.gridSize = size;
+
+        // Redraw
         this.remove();
         this.draw();
     }
@@ -91,7 +91,7 @@ export default class Grid {
     }
 
     saveSettings ( settings ) {
-        console.log( 'Save grid settings', settings, this );
+        console.log( 'Save grid settings', settings );
 
         this.enabled     = !!(settings.grid_enabled && settings.grid_enabled == "on");
         this.snap_assets = !!(settings.grid_snap && settings.grid_snap == "on");
@@ -107,6 +107,8 @@ export default class Grid {
         }
 
         this.Client.Assets.snapAssets( this.snapAssets() ? [ this.gridSize.x, this.gridSize.y ] : false );
+
+        // Redraw if grid is enabled
         this.remove();
         if ( this.enabled ) {
             this.draw();

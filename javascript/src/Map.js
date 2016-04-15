@@ -1,4 +1,3 @@
-
 export default class Map {
 
     constructor ( Client, width = 1920, height = 1080 ) {
@@ -71,16 +70,12 @@ export default class Map {
     draggable ( toggle ) {
         this.map.draggable( {disabled: !toggle} );
 
-        if ( toggle ) {
-            $( '.asset-file' ).css( 'pointer-events', 'none' );
-        } else {
-            $( '.asset-file' ).css( 'pointer-events', 'auto' );
-        }
+        $( '.asset-file' ).css( 'pointer-events', ( toggle ) ? 'none' : 'auto' );
     }
 
-    center() {
+    center () {
         this.position.x = ( $( window ).width() - this.width ) / 2;
-        this.position.y = ( $(window).height() - this.height ) / 2;
+        this.position.y = ( $( window ).height() - this.height ) / 2;
         this.draw();
     }
 }

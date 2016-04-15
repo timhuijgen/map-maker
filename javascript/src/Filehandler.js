@@ -39,7 +39,7 @@ export default class Filehandler {
                 size:     files[ iterator ].size,
                 uploaded: (new Date().getTime() / 1000 | 0),
                 content:  e.currentTarget.result,
-                hash:     this.hashCode( e.currentTarget.result )
+                hash:     Filehandler.hashCode( e.currentTarget.result )
             } );
 
             iterator++;
@@ -54,7 +54,7 @@ export default class Filehandler {
         }
     }
 
-    hashCode ( string ) {
+    static hashCode ( string ) {
         return string.split( "" ).reduce( function ( a, b ) {
             a = ((a << 5) - a) + b.charCodeAt( 0 );
             return a & a

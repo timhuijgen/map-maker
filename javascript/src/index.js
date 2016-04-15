@@ -1,9 +1,9 @@
 'use strict';
 
 import Client from './Client';
-import 'console-shim';
-import 'es5-shim';
-import 'es6-shim';
+//import 'console-shim';
+//import 'es5-shim';
+//import 'es6-shim';
 
 /**
  * Parse environment options and pass them to the Client
