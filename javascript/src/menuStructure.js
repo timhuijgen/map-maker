@@ -132,7 +132,7 @@ export default function() {
         }
     ];
 
-    if (window.process.platform == 'darwin') {
+    if (window.process && window.process.platform == 'darwin') {
         this.structure[ 0 ].submenu.push( {
             label:       'Quit',
             accelerator: 'Command+Q',

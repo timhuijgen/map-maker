@@ -15,13 +15,14 @@ export default class Map {
             width:  this.width,
             height: this.height,
             left:   this.position.x,
-            top:    this.position.y
+            top:    this.position.y,
+            backgroundImage: 'url(' + this.background + ')'
         } );
 
         this.map.droppable( {
             drop: ( ev, ui ) => {
                 if ( !$( ui.draggable ).hasClass( 'file' ) ) {
-                    console.warn( 'Trying to drop something on the map this is not from the collection' );
+                    console.warn( 'Trying to drop something on the map that is not from the collection' );
                     return;
                 }
 
