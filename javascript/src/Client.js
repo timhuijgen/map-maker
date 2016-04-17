@@ -2,7 +2,7 @@ import Filehandler from './Filehandler';
 import Grid from './Grid';
 import Collection from './Collection';
 import Assets from './Assets';
-import InterfaceHandler from './InterfaceHandler';
+import Interface from './Interface';
 import Menu from './Menu';
 import Popup from './Popup';
 import Map from './Map';
@@ -18,7 +18,7 @@ export default class Client {
         this.Map         = new Map( this, 800, 600 ).draw();
         this.Grid        = new Grid( this, {x: 20, y: 20} ).draw();
         this.Popup       = new Popup( this );
-        this.Interface   = new InterfaceHandler( this );
+        this.Interface   = new Interface( this );
         this.Filehandler = new Filehandler( this );
         this.Menu        = new Menu( this ).draw();
     }

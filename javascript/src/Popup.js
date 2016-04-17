@@ -6,10 +6,14 @@ export default class Popup {
 
     setHeader ( title ) {
         $( '.popup-header h4' ).html( title );
+
+        return this;
     }
 
     clearHeader () {
         this.setHeader( '' );
+
+        return this;
     }
 
     setFooter ( cancelCb, successText, successCb ) {
@@ -17,11 +21,15 @@ export default class Popup {
 
         $( '.popup-footer' )
             .append( $( '<div></div>' ).addClass( 'btn btn-default' ).html( 'Cancel' ).on( 'click', this.clearAndClose.bind( this, cancelCb ) ) )
-            .append( $( '<div></div>' ).addClass( 'btn btn-primary pull-right' ).html( successText ).on( 'click', this.clearAndClose.bind( this, successCb ) ) )
+            .append( $( '<div></div>' ).addClass( 'btn btn-primary pull-right' ).html( successText ).on( 'click', this.clearAndClose.bind( this, successCb ) ) );
+
+        return this;
     }
 
     clearFooter () {
         $( '.popup-footer' ).empty();
+
+        return this;
     }
 
     setBody ( data ) {
@@ -62,10 +70,14 @@ export default class Popup {
         } );
 
         $( '.popup-body' ).append( form );
+
+        return this;
     }
 
     clearBody () {
         $( '.popup-body' ).empty();
+
+        return this;
     }
 
     clearAndClose ( cb ) {
@@ -84,20 +96,28 @@ export default class Popup {
 
         this.clear();
         this.closePopup();
+
+        return this;
     }
 
     clear() {
         this.clearHeader();
         this.clearBody();
         this.clearFooter();
+
+        return this;
     }
 
     closePopup () {
         $( '.popup' ).addClass( 'hidden' );
+
+        return this;
     }
 
     openPopup () {
         $( '.popup' ).removeClass( 'hidden' );
+
+        return this;
     }
 
 }

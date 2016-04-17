@@ -77,17 +77,18 @@ export default class Grid {
     }
 
     editGrid () {
-        this.Client.Popup.clear();
-        this.Client.Popup.setHeader( 'Edit Grid' );
-        this.Client.Popup.setBody( [
-            {label: 'Enable', type: 'checkbox', name: 'grid_enabled', value: this.enabled},
-            {label: 'Snap Assets', type: 'checkbox', name: 'grid_snap', value: this.snap_assets},
-            {label: 'Width', type: 'text', name: 'grid_width', value: this.gridSize.x},
-            {label: 'Height', type: 'text', name: 'grid_height', value: this.gridSize.y},
-            {label: 'Color', type: 'text', name: 'grid_color', value: this.color}
-        ] );
-        this.Client.Popup.setFooter( null, null, this.saveSettings.bind( this ) );
-        this.Client.Popup.openPopup();
+        this.Client.Popup
+            .clear()
+            .setHeader( 'Edit Grid' )
+            .setBody( [
+                {label: 'Enable', type: 'checkbox', name: 'grid_enabled', value: this.enabled},
+                {label: 'Snap Assets', type: 'checkbox', name: 'grid_snap', value: this.snap_assets},
+                {label: 'Width', type: 'text', name: 'grid_width', value: this.gridSize.x},
+                {label: 'Height', type: 'text', name: 'grid_height', value: this.gridSize.y},
+                {label: 'Color', type: 'text', name: 'grid_color', value: this.color}
+            ] )
+            .setFooter( null, null, this.saveSettings.bind( this ) )
+            .openPopup();
     }
 
     saveSettings ( settings ) {
