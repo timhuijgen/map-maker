@@ -6,6 +6,7 @@ import Interface from './Interface';
 import Menu from './Menu';
 import Popup from './Popup';
 import Map from './Map';
+import ElementManager from './ElementManager';
 
 export default class Client {
 
@@ -19,6 +20,7 @@ export default class Client {
         this.Grid        = new Grid( this, {x: 20, y: 20} ).draw();
         this.Popup       = new Popup( this );
         this.Interface   = new Interface( this );
+        this.ElementManager = new ElementManager(this);
         this.Filehandler = new Filehandler( this );
         this.Menu        = new Menu( this ).draw();
     }

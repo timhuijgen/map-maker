@@ -79,4 +79,13 @@ export default class Map {
         this.position.y = ( $( window ).height() - this.height ) / 2;
         this.draw();
     }
+
+    zoomIn() {
+        this.map.css('zoom', this.map.css('zoom') + 0.1);
+    }
+
+    zoomOut() {
+        this.map.css('zoom', this.map.css('zoom') - 0.1);
+    }
+
 }

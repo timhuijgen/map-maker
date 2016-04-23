@@ -49,8 +49,10 @@ export default class Assets {
 
         this.getMapAsset( key ).css( 'zIndex', 16 );
         this.selected_asset = key;
-        // @TODO Want to open element manager always ?
-        this.Client.Interface.openElementManager();
+
+        this.Client.ElementManager
+            .setAsset( this.assets[key] )
+            .open();
     }
 
     addMapAsset ( file ) {
