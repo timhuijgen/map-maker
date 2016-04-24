@@ -61,9 +61,19 @@ export default class Assets {
         let snap         = this.Client.Grid.snapAssets(),
             drag_options = {
                 scroll: false,
-                stop:   function ( ev, ui ) {
-                    file.position.y = ui.position.top;
-                    file.position.x = ui.position.left;
+                drag: ( ev, ui ) => {
+                    let change = false;
+                    if(file.position.y !== ui.position.top) {
+                        file.position.y = ui.position.top;
+                        change = true;
+                    }
+                    if(file.position.x !== ui.position.left) {
+                        file.position.x = ui.position.left;
+                        change = true;
+                    }
+                    if(change) {
+                        this.Client.ElementManager.updateForm();
+                    }
                 }
             };
 

@@ -95,14 +95,6 @@ body {
 
     }
 
-    i[id^="map-"] {
-        padding: 7px;
-
-        &.active {
-            color: #800000;
-        }
-    }
-
     .collection-list {
         max-height: calc(100vh - 160px);
         display: inline-block;
@@ -171,6 +163,7 @@ body {
     .asset-file {
         position: absolute;
         z-index: 15;
+        background-size: 100% 100%;
     }
 }
 
@@ -240,7 +233,7 @@ body {
     transform: translateX(-50%);
     width: auto;
     height: auto;
-    background: rgba(255,255,255,0.5);
+    background: rgba(0,0,0,0.4);
     border-radius: 5px;
     padding: 10px 6px 6px 6px;
     z-index: 100;
@@ -250,5 +243,11 @@ body {
         color: white;
         font-size: 20px;
         margin: 0 6px;
+
+        &.active {
+            color: #800000;
+        }
     }
+
+
 }

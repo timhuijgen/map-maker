@@ -36,12 +36,26 @@ export default class ElementManager {
 
         form.append( ElementManager.getAssetTemplate(this.asset) );
 
+        form.change(e => this.handleFormChange);
+
         this.clear();
         this.element.append(form);
     }
 
     clear() {
         this.element.empty();
+    }
+
+    handleFormChange() {
+
+    }
+
+    updateForm() {
+        console.log('Dragging', this.asset.position.x, this.asset.position.y);
+
+        let form = this.element.find('form');
+        form.find('input[name="position_x"]').val(this.asset.position.x);
+        form.find('input[name="position_y"]').val(this.asset.position.y);
     }
 
     static getAssetTemplate( asset ) {
@@ -72,7 +86,7 @@ export default class ElementManager {
         pos_top.append($('<input>').attr('type', 'text').attr('name', 'position_y').addClass('form-control').val(asset.position.y));
         template.append( pos_top );
 
-        let type = $('<div>').addClass('form-group col-xs-12');
+        let type = $('<div>').addClass('form-group col-xs-6');
         type.append($('<label>').html('Object Type'));
         type.append(
             $('<select>').attr('name', 'object_type').addClass('form-control')
@@ -80,11 +94,11 @@ export default class ElementManager {
                 .append($('<option>').attr('value', 'sprite').html('Sprite'))
                 .append($('<option>').attr('value', 'tilesprite').html('TileSprite'))
                 .append($('<option>').attr('value', 'button').html('Button'))
-                .val(asset.name)
+                .val(asset.object_type)
         );
         template.append( type );
 
-        let game_type = $('<div>').addClass('form-group col-xs-12');
+        let game_type = $('<div>').addClass('form-group col-xs-6');
         game_type.append($('<label>').html('Game Type'));
         game_type.append(
             $('<select>').attr('name', 'game_type').addClass('form-control')
@@ -93,9 +107,25 @@ export default class ElementManager {
                 .append($('<option>').attr('value', 'decoration').html('Decoration'))
                 .append($('<option>').attr('value', 'npc').html('NPC'))
                 .append($('<option>').attr('value', 'portal').html('Portal'))
-                .val(asset.name)
+                .val(asset.game_type)
         );
         template.append( game_type );
+
+        let collision = $('<div>').addClass('form-group col-xs-6');
+        collision.append($('<label>').html('Collision'));
+        collision.append(
+            $('<select>').attr('name', 'game_type').addClass('form-control')
+                .append($('<option>').attr('value', 'none').html('None'))
+                .append($('<option>').attr('value', 'all').html('All'))
+                .append($('<option>').attr('value', 'monsters').html('Monsters'))
+                .append($('<option>').attr('value', 'players').html('Players'))
+                .val(asset.collision)
+        );
+        template.append(collision);
+
+        let delete_btn = $('<div>').addClass('form-group col-xs-12');
+        delete_btn.append($('<button>').attr('type', 'button').addClass('btn btn-danger pull-down').html('Remove asset'));
+        template.append( delete_btn );
 
 
         return template;

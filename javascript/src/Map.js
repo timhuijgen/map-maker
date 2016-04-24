@@ -5,6 +5,7 @@ export default class Map {
         this.background = null;
         this.width      = width;
         this.height     = height;
+        this.scale      = 1;
         this.name       = '';
         this.position   = {x: 0, y: 0};
         this.map        = $( '#map-area' )
@@ -81,11 +82,16 @@ export default class Map {
     }
 
     zoomIn() {
-        this.map.css('zoom', this.map.css('zoom') + 0.1);
+        this.scale += 0.1;
+        this.updateZoom();
     }
 
     zoomOut() {
-        this.map.css('zoom', this.map.css('zoom') - 0.1);
+        this.scale -= 0.1;
+        this.updateZoom();
     }
 
+    updateZoom() {
+        this.map.css('transform', 'scale(' + this.scale + ')');
+    }
 }

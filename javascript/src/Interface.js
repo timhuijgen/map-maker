@@ -13,7 +13,7 @@ export default class Interface {
             this.toolbar.toggleClass( 'in' );
         } );
 
-        $( '#map-controls' ).on( 'click', ( ev ) => {
+        $( '#map-move' ).on( 'click', ( ev ) => {
             $( ev.currentTarget ).toggleClass( 'active' );
 
             this.Client.Map.draggable( $( ev.currentTarget ).hasClass( 'active' ) );
@@ -21,6 +21,14 @@ export default class Interface {
 
         $( '#map-center' ).on( 'click', () => {
             this.Client.Map.center();
+        });
+
+        $('#map-zoom-in').on( 'click', () => {
+            this.Client.Map.zoomIn();
+        });
+
+        $('#map-zoom-out').on( 'click', () => {
+            this.Client.Map.zoomOut();
         });
     }
 
