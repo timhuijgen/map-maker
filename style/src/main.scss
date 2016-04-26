@@ -120,6 +120,10 @@ body {
     color: #707070;
 }
 
+input[type="checkbox"] {
+    margin: 11px 0 11px;
+}
+
 .element-manager {
     position: fixed;
     bottom: 0;
@@ -144,6 +148,9 @@ body {
     left: 0;
     z-index: 1;
     background-color: #787878;
+    transform: scale( 1 );
+    transition: transform 0.5s linear;
+    will-change: transform;
 
     .grid {
         position: absolute;

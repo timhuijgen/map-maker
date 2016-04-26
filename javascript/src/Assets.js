@@ -11,9 +11,19 @@ export default class Assets {
     }
 
     add ( file, position ) {
-        file          = _.extend( {}, file );
-        file.position = this.Client.Grid.snapToGrid( position );
-        file.key      = this.assets.push( file ) - 1;
+        file               = _.extend( {}, file );
+        file.position      = this.Client.Grid.snapToGrid( position );
+        file.remove        = this.delete.bind( this, file );
+        file.redraw        = this.redraw.bind( this, file );
+        file.key           = this.assets.push( file ) - 1;
+        file.collision     = 'none';
+        file.object_type   = 'sprite';
+        file.game_type     = 'object';
+        file.drag_lock     = false;
+        file.spritesheet   = false;
+        file.frame         = 0;
+        file.sprite_width  = 0;
+        file.sprite_height = 0;
 
         let img  = new Image(),
             self = this;
@@ -51,7 +61,7 @@ export default class Assets {
         this.selected_asset = key;
 
         this.Client.ElementManager
-            .setAsset( this.assets[key] )
+            .setAsset( this.assets[ key ] )
             .open();
     }
 
@@ -60,18 +70,19 @@ export default class Assets {
 
         let snap         = this.Client.Grid.snapAssets(),
             drag_options = {
-                scroll: false,
-                drag: ( ev, ui ) => {
+                scroll:   false,
+                disabled: file.drag_lock,
+                drag:     ( ev, ui ) => {
                     let change = false;
-                    if(file.position.y !== ui.position.top) {
+                    if ( file.position.y !== ui.position.top ) {
                         file.position.y = ui.position.top;
-                        change = true;
+                        change          = true;
                     }
-                    if(file.position.x !== ui.position.left) {
+                    if ( file.position.x !== ui.position.left ) {
                         file.position.x = ui.position.left;
-                        change = true;
+                        change          = true;
                     }
-                    if(change) {
+                    if ( change ) {
                         this.Client.ElementManager.updateForm();
                     }
                 }
@@ -154,5 +165,16 @@ export default class Assets {
 
     clear () {
         this.map_list.empty();
+    }
+
+    delete ( asset ) {
+        this.getListAsset( asset.key ).remove();
+        this.getMapAsset( asset.key ).remove();
+        delete this.assets[ asset.key ];
+    }
+
+    redraw ( asset ) {
+        this.getMapAsset( asset.key ).remove();
+        this.addMapAsset( asset );
     }
 }

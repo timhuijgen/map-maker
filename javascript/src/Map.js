@@ -70,7 +70,9 @@ export default class Map {
     }
 
     draggable ( toggle ) {
-        this.map.draggable( {disabled: !toggle} );
+        this.map.draggable( {
+            disabled: !toggle
+        } );
 
         $( '.asset-file' ).css( 'pointer-events', ( toggle ) ? 'none' : 'auto' );
     }
@@ -78,7 +80,7 @@ export default class Map {
     center () {
         this.position.x = ( $( window ).width() - this.width ) / 2;
         this.position.y = ( $( window ).height() - this.height ) / 2;
-        this.draw();
+        return this.draw();
     }
 
     zoomIn() {
