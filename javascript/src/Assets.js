@@ -30,7 +30,9 @@ export default class Assets {
 
         img.onload = function () {
             file.width  = this.width;
+            file.original_width  = this.width;
             file.height = this.height;
+            file.original_height = this.height;
             self.onLoadDone( file );
         };
         img.src    = file.content;
@@ -93,18 +95,34 @@ export default class Assets {
             drag_options.grid = [ grid.x, grid.y ];
         }
 
+        let styling = {
+            position:        'absolute',
+            left:            file.position.x + 'px',
+            top:             file.position.y + 'px',
+            width:           file.width + 'px',
+            height:          file.height + 'px',
+            backgroundImage: 'url(' + file.content + ')'
+        };
+
+        if( file.spritesheet ) {
+            let widthSprites = (file.original_width / file.sprite_width),
+                heightSprites = (file.original_height / file.sprite_height),
+                framesDown = Math.floor(file.frame / widthSprites),
+                framesLeft = (file.frame % widthSprites);
+
+            let top = -(framesDown * file.sprite_height),
+                left = -(framesLeft * file.sprite_width);
+
+            styling.backgroundSize = (file.original_width * (file.width / file.sprite_width )) + 'px ' + (file.original_height * (file.height / file.sprite_height)) + 'px';
+            styling.backgroundPosition = (left * (file.width / file.sprite_width )) + 'px ' + (top * (file.height / file.sprite_height)) + 'px';
+        }
+
+        console.log('Setting styling ', styling);
 
         let element = $( '<div></div>' )
             .attr( 'id', 'map-asset-' + file.key )
             .addClass( 'asset-file' )
-            .css( {
-                position:        'absolute',
-                left:            file.position.x + 'px',
-                top:             file.position.y + 'px',
-                width:           file.width + 'px',
-                height:          file.height + 'px',
-                backgroundImage: 'url(' + file.content + ')'
-            } )
+            .css( styling )
             .on( 'mousedown', () => {
                 this.selectAsset( file.key );
             } )

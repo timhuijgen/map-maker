@@ -8,12 +8,6 @@ export default class ElementManager {
         this.element = $( '#element-manager' );
 
         this.element.find( '.toggle' ).on( 'click', this.toggle.bind( this ) );
-
-        this.filterRules = {
-            object_type: {
-                self: 'image',
-            }
-        }
     }
 
     toggle () {
